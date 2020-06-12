@@ -1,0 +1,60 @@
+#  This file is part of systemd and managed by Chef for <%= node['fqdn'] %>
+
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+#
+# Entries in this file show the compile time defaults.
+# You can change settings by editing this file.
+# Defaults can be restored by simply deleting this file.
+#
+# See timesyncd.conf(5) for details.
+
+
+sudo timedatectl set-ntp True
+Check result with timedatectl status
+
+-wait-online.service
+
+
+[Time]
+<% if @ntp -%>NTP=<% @ntp.each do |n| -%><%= n %> <% end -%><% else -%>#NTP=<% end -%>
+<% if @fallbackntp -%>FallbackNTP=<% @fallbackntp.each do |f| -%><%= f %> <% end -%><% else -%>#FallbackNTP=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org<% end -%>
+<% if @rootdistancemaxsec -%>RootDistanceMaxSec=<%= @rootdistancemaxsec %><% else -%>#RootDistanceMaxSec=5<% end -%>
+<% if @pollintervalminsec -%>PollIntervalMinSec=<%= @pollintervalminsec %><% else -%>#PollIntervalMinSec=32<% end -%>
+<% if @pollintervalmaxsec -%>PollIntervalMaxSec=<%= @pollintervalmaxsec %><% else -%>#PollIntervalMaxSec=2048<% end -%>
+
+
+# FallbackNTP=0.us.pool.ntp.org 1.us.pool.ntp.org
+
+
+
+# cat /etc/systemd/system/systemd-timesyncd.timer
+[Unit]
+Description=Start time synchronisation (workaround)
+
+[Timer]
+OnBootSec=1min
+
+[Install]
+WantedBy=timers.target
+
+
+# get time at boot
+[Unit]
+Description= set the systemtime and restart timesyncd-service
+After=boot-complete.target
+
+[Service]
+User=root
+Type=oneshot
+ExecStart=/usr/local/bin/gettime.sh
+ExecStartPost=/usr/sbin/systemctl restart systemd-timesyncd.service
+
+[Install]
+WantedBy=graphical.target
+writing this shellscript in /usr/local/bin :
+#!/bin/bash
+sleep 30 && date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -
