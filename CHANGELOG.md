@@ -13,3 +13,14 @@ Initial release.
 - reduced template to simpler version from https://www.freedesktop.org/software/systemd/man/timesyncd.conf.html
 - added inspec tests
 - testing on more platforms
+
+# 0.3.0
+
+- refactor to custom resource and default recipe
+- matrix for supported platforms
+- tests for service
+
+# BACKLOG
+- do we need to block on ntpd/chrony? ("System clock synchronized: yes" happens with ntpd)
+- do we need to /sbin/hwclock --systohc --localtime
+- do we need to enable setting hardware clock to coordinated universal time (UTC): # timedatectl set-local-rtc 0
