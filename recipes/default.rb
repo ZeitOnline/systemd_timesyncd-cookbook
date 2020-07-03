@@ -1,17 +1,16 @@
 #
-# Cookbook:: timesyncd
+# Cookbook:: systemd_timesyncd
 # Recipe:: default
 #
-# Copyright:: 2020, The Authors, All Rights Reserved.
 
 template '/etc/systemd/timesyncd.conf' do
   source 'timesyncd.conf.erb'
   variables(
-    ntp: node['timesyncd']['NTP'],
-    fallbackntp: node['timesyncd']['FallbackNTP'],
-    rootdistancemaxsec: node['timesyncd']['RootDistanceMaxSec'],
-    pollintervalminsec: node['timesyncd']['PollIntervalMinSec'],
-    pollintervalmaxsec: node['timesyncd']['PollIntervalMaxSec']
+    ntp: node['systemd_timesyncd']['ntp'],
+    fallbackntp: node['systemd_timesyncd']['fallbackntp'],
+    rootdistancemaxsec: node['systemd_timesyncd']['rootdistancemaxsec'],
+    pollintervalminsec: node['systemd_timesyncd']['pollintervalminsec'],
+    pollintervalmaxsec: node['systemd_timesyncd']['pollintervalmaxsec']
   )
 end
 

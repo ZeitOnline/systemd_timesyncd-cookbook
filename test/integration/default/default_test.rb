@@ -1,16 +1,15 @@
-# InSpec test for recipe timesyncd::default
+# InSpec test for recipe systemd_timesyncd::default
 
-# The InSpec reference, with examples and extensive documentation, can be
-# found at https://www.inspec.io/docs/reference/resources/
-
-unless os.windows?
-  # This is an example test, replace with your own test.
-  describe user('root'), :skip do
-    it { should exist }
-  end
+# check the conf file
+describe file('/etc/systemd/timesyncd.conf') do
+  its('content') { should_not match(/^#NTP=/) }
+  its('content') { should match(/NTP=10.0.0.1/) }
+  its('content') { should_not match(/^#FallbackNTP=/) }
+  its('content') { should match(/FallbackNTP=0.au.pool.ntp.org 1.au.pool.ntp.org 2.au.pool.ntp.org/) }
+  its('content') { should match(/^#RootDistanceMaxSec=/) }
+  its('content') { should match(/^#PollIntervalMinSec=/) }
+  its('content') { should match(/^#PollIntervalMaxSec=/) }
 end
 
-# This is an example test, replace it with your own test.
-describe port(80), :skip do
-  it { should_not be_listening }
-end
+# check that it's enabled in systemd
+# timectlstatus
