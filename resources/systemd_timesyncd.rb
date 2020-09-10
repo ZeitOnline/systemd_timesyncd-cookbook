@@ -48,7 +48,6 @@ action :stop do
 end
 
 action_class do
-
   def timesyncd(action, ntp, fallbackntp, rootdistancemaxsec, pollintervalminsec, pollintervalmaxsec)
     template '/etc/systemd/timesyncd.conf' do
       source 'timesyncd.conf.erb'
@@ -58,7 +57,7 @@ action_class do
                 rootdistancemaxsec: rootdistancemaxsec,
                 pollintervalminsec: pollintervalminsec,
                 pollintervalmaxsec: pollintervalmaxsec
-               )
+              )
     end
 
     service 'systemd-timesyncd.service' do

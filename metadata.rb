@@ -9,6 +9,6 @@ chef_version '>= 16.0'
 issues_url 'https://github.com/mattray/systemd_timesyncd-cookbook/issues'
 source_url 'https://github.com/mattray/systemd_timesyncd-cookbook'
 
-supports 'debian', '>= 8'
-supports 'suse', '>= 12'
+supports 'debian', '>= 8.0'
+supports 'suse', '>= 12.0'
 supports 'ubuntu', '>= 16.04'
