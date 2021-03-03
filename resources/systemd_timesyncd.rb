@@ -51,6 +51,7 @@ action_class do
   def timesyncd(action, ntp, fallbackntp, rootdistancemaxsec, pollintervalminsec, pollintervalmaxsec)
     template '/etc/systemd/timesyncd.conf' do
       source 'timesyncd.conf.erb'
+      cookbook 'systemd_timesyncd'
       variables(
                 ntp: ntp,
                 fallbackntp: fallbackntp,
