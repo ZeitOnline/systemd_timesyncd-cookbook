@@ -20,6 +20,10 @@ Initial release.
 - matrix for supported platforms
 - tests for service
 
+# 0.3.1
+
+- cookbook specificity for template origin from https://github.com/mattray/systemd_timesyncd-cookbook/pull/1 Thanks @frank-m
+
 # BACKLOG
 - do we need to block on ntpd/chrony? ("System clock synchronized: yes" happens with ntpd)
 - do we need to /sbin/hwclock --systohc --localtime
